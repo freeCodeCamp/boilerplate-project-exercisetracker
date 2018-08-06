@@ -1,3 +1,5 @@
+
+
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -41,6 +43,32 @@ app.use((err, req, res, next) => {
   }
   res.status(errCode).type('txt')
     .send(errMessage)
+})
+
+// three routes
+// new user
+app.route('/api/exercise/new-user')
+  .post(function(req,res){
+// check if exists
+  
+// add
+  
+})
+  
+app.route('/api/exercise/add')
+  .post(function(req,res){
+
+})
+
+app.route('/api/exercise/log')
+  .get(function(req,res){
+  var log=[]
+/*
+GET users's exercise log: GET /api/exercise/log?{userId}[&from][&to][&limit]
+{ } = required, [ ] = optional
+from, to = dates (yyyy-mm-dd); limit = number
+*/
+  res.send(log)
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
