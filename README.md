@@ -1,2 +1,5 @@
-# boilerplate-project-exercisetracker
-A boilerplate for a freeCodeCamp project.
+# Exercise Tracker REST API
+
+#### A microservice project, part of Free Code Camp's curriculum
+
+
