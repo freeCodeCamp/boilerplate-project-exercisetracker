@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/exercise-track' )
 
 app.use(cors())
 
@@ -19,6 +19,8 @@ app.get('/', (req, res) => {
 });
 
 
+
+//***ADD YOUR CODE ABOVE THIS LINE***
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
@@ -46,3 +48,4 @@ app.use((err, req, res, next) => {
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
+listener
