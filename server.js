@@ -27,6 +27,8 @@ app.post('api/exercise/new-user', (req, res) => {
     username: userInput,
     userId: newUserId 
   })
+
+  res.json(data);
 });
 
 // Not found middleware
