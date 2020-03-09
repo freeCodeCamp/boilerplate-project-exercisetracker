@@ -18,6 +18,17 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+//creating an endpoint for the username
+app.post('api/exercise/new-user', (req, res) => {
+  let userInput = req.params.uname;
+  let newUserId = math.floor(math.random() * 10);
+
+  let data = new user({
+    username: userInput,
+    userId: newUserId 
+  })
+});
+
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
