@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
