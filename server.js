@@ -22,14 +22,33 @@ app.get('/', (req, res) => {
 app.post('api/exercise/new-user', (req, res) => {
   let userInput = req.params.uname;
   let newUserId = math.floor(math.random() * 10);
+  let userTestRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
 
-  let data = new user({
-    username: userInput,
-    userId: newUserId 
-  })
+  if (userInput.test(userTestRegex === true)){
+    let data = new user({
+      username: userInput,
+      userId: newUserId 
+    })
 
-  res.json(data);
+    data.save(err=>{
+      if (err){
+        return res.send("Error saving username to database");
+      }
+    });
+
+    return res.json(data);
+  } 
+    let data = new user({
+      username: "User name is not valid",
+      userId: "Invalid username"
+    })
+
+    return res.json(data); 
 });
+
+app.post('/api/exercise/add', (req, res) => {
+  
+})
 
 // Not found middleware
 app.use((req, res, next) => {
