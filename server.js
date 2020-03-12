@@ -22,7 +22,6 @@ app.get('/', (req, res) => {
 app.post('api/exercise/new-user', (req, res) => {
   let userInput = req.body.username;
   let newUserId = math.floor(math.random() * 10);
-  let userTestRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
 
   if (userInput){
     let user = new userInit({
