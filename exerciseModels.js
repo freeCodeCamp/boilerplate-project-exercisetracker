@@ -24,3 +24,6 @@ var addExerciseSchema = new Schema({
     },
     date: Number
 });
+
+module.exports = mongoose.model("new user", userSchema);
+module.exports = mongoose.model("add exercise", addExerciseSchema);

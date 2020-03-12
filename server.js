@@ -18,13 +18,12 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+const userModel = require(_dirname + "/exerciseModels.js");
+
 //creating an endpoint for the username
 app.post('api/exercise/new-user', (req, res) => {
-  let userInput = req.params.uname;
-  let newUserId = math.floor(math.random() * 10);
-  let userTestRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
-
-  if (userInput.test(userTestRegex === true)){
+  let newUser = req.body.username; 
+  if (username){
     let data = new user({
       username: userInput,
       userId: newUserId 
@@ -47,7 +46,7 @@ app.post('api/exercise/new-user', (req, res) => {
 });
 
 app.post('/api/exercise/add', (req, res) => {
-  
+
 })
 
 // Not found middleware
