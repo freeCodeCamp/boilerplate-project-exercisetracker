@@ -18,31 +18,33 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-const userModel = require(_dirname + "/exerciseModels.js");
-
 //creating an endpoint for the username
 app.post('api/exercise/new-user', (req, res) => {
-  let newUser = req.body.username; 
-  if (username){
-    let data = new user({
+  let userInput = req.body.username;
+  let newUserId = math.floor(math.random() * 10);
+  let userTestRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/;
+
+  if (userInput){
+    let user = new userInit({
       username: userInput,
       userId: newUserId 
-    })
-
-    data.save(err=>{
-      if (err){
-        return res.send("Error saving username to database");
+    });
+    
+    data.findOne({username: user.username}, (error, data) => {
+      if(error) return next(error);
+      if(data) {
+        res.send("That username is already taken"); 
+      } else {
+        user.save(err=>{
+          if (err){
+            return res.send("Error saving username to database");
+          }
+        });
       }
     });
-
-    return res.json(data);
-  } 
-    let data = new user({
-      username: "User name is not valid",
-      userId: "Invalid username"
-    })
-
-    return res.json(data); 
+  } else {
+    json.send("You must submit a username"); 
+  }  
 });
 
 app.post('/api/exercise/add', (req, res) => {

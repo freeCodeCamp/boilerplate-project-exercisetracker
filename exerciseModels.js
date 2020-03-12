@@ -1,7 +1,7 @@
 //creating the model for username
 var Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+var userInit = new Schema({
     username: {
         type: String, 
         required: true
@@ -9,7 +9,7 @@ var userSchema = new Schema({
     userId: Number
 });
 
-var addExerciseSchema = new Schema({
+var exerciseLog = new Schema({
     userId: {
         type: Number,
         required: true
