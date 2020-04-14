@@ -13,6 +13,13 @@ app.use(bodyParser.json())
 
 
 app.use(express.static('public'))
+
+// log requests
+app.use(({method, path}, res, next) => {
+  console.log(`${method} ${path}`);
+  next();
+});
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
@@ -20,7 +27,7 @@ app.get('/', (req, res) => {
 
 // Not found middleware
 app.use((req, res, next) => {
-  return next({status: 404, message: 'not found'})
+  return next({status: 404, message: 'No exercise here'})
 })
 
 // Error Handling middleware
