@@ -20,35 +20,16 @@ app.get('/', (req, res) => {
 
 //creating an endpoint for the username
 app.post('api/exercise/new-user', (req, res) => {
-  let userInput = req.body.username;
+  let userInput = req.params.uname;
   let newUserId = math.floor(math.random() * 10);
 
-  if (userInput){
-    let user = new userInit({
-      username: userInput,
-      userId: newUserId 
-    });
-    
-    data.findOne({username: user.username}, (error, data) => {
-      if(error) return next(error);
-      if(data) {
-        res.send("That username is already taken"); 
-      } else {
-        user.save(err=>{
-          if (err){
-            return res.send("Error saving username to database");
-          }
-        });
-      }
-    });
-  } else {
-    json.send("You must submit a username"); 
-  }  
+  let data = new user({
+    username: userInput,
+    userId: newUserId 
+  })
+
+  res.json(data);
 });
-
-app.post('/api/exercise/add', (req, res) => {
-
-})
 
 // Not found middleware
 app.use((req, res, next) => {
