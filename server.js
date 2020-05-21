@@ -19,6 +19,10 @@ app.get('/', (req, res) => {
 });
 
 
+
+
+//ALL ENDPOINTS BEFORE ERROR HANDLING -- IF NOT, THE ERROR HANDLING MIDDLEWARE WILL BREAK THE SERVER. 
+
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
