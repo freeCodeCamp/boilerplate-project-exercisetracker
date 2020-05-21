@@ -19,6 +19,12 @@ app.get('/', (req, res) => {
 });
 
 
+
+//# PUT ALL ENDPOINTS AND LOGIC BEFORE THIS LINE
+//# NOT PUTTING ENDPOINTS BEFORE ERROR HANDLING WILL RESULT IN YOUR SERVER BREAKING
+//# WILL THROW ERRORS FOR __EVERY__ ENDPOINT INSTEAD OF JUST ENDPOINTS SPECIFIED IN MIDDLEWARE
+
+
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
