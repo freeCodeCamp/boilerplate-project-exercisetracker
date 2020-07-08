@@ -4,6 +4,8 @@
 
 ### User Stories
 
+[![Run on Repl.it](https://repl.it/badge/github/freeCodeCamp/boilerplate-project-exercisetracker)](https://repl.it/github/freeCodeCamp/boilerplate-project-exercisetracker)
+
 1. I can create a user by posting form data username to /api/exercise/new-user and returned will be an object with username and _id.
 2. I can get an array of all users by getting api/exercise/users with the same info as when creating a user.
 3. I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. Returned will be the user object with also with the exercise fields added.
