@@ -1,35 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Exercise Tracker</title>
+   <link href="style.css" rel="stylesheet" type="text/css">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+   <div id="header">
+      <h2 class="text-center mt-4"><img src="https://img.icons8.com/android/48/000000/exercise.png"/> Exercise Tracker</h2>
+   </div>
 
-   <head>
-      <title>Exercise Tracker | Free Code Camp</title>
-      <link rel="shortcut icon" href="https://cdn.hyperdev.com/us-east-1%3A52a203ff-088b-420f-81be-45bf559d01b1%2Ffavicon.ico" type="image/x-icon"/>
-      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-      <link href="style.css" rel="stylesheet" type="text/css">
-   </head>
+   <div id="form-1">
+      <form class="form-group p-2" action="/api/exercise/new-user" method="POST">
+         <h4 class="card-header text-center" style="border-bottom: 2px solid navy;">Create New User</h4>
+         <div class="card-body">
+         <label for="name" class="form-label mt-4">Name</label>
+         <input type="text" name="name" placeholder="Enter Name Here" class="form-control">
+         <button class="btn btn-outline-success mt-4">Create User</button>
+         </div>
+      </form>
+   </div>
 
-   <body>
-      <div class="container">
-         <h1>Exercise tracker</h1>
-          <form action="/api/exercise/new-user" method="post">
-            <h3>Create a New User</h3>
-            <p><code>POST /api/exercise/new-user</code></p>
-            <input id="uname" type="text" name="username" placeholder="username">
-            <input type="submit" value="Submit">
-          </form>
-          <form action="/api/exercise/add" method="post">
-            <h3>Add exercises</h3>
-            <p><code>POST /api/exercise/add</code></p>
-            <input id="uid" type="text" name="userId" placeholder="userId*">
-            <input id="desc" type="text" name="description" placeholder="description*">
-            <input id="dur" type="text" name="duration" placeholder="duration* (mins.)">
-            <input id="dat" type="text" name="date" placeholder="date (yyyy-mm-dd)">
-            <input type="submit" value="Submit">
-          </form>
-          <p><strong>GET users's exercise log: </strong><code>GET /api/exercise/log?{userId}[&amp;from][&amp;to][&amp;limit]</code></p>
-          <p><strong>{ }</strong> = required, <strong>[ ]</strong> = optional</p>
-          <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number</p>
+   <div id="form-2">
+      <form class="form-group p-2" method="POST" action="/api/exercise/add">
+         <h4 class="card-header text-center" style="border-bottom: 2px solid navy;">Add Exercises</h4>
+         <div class="card-body">
+         <label for="userid" class="form-label mt-4">User Id <span class="text-danger">*</span></label>
+         <input type="text" name="userid" placeholder="Enter Name Here" class="form-control">
+         <label for="description" class="form-label mt-4">Description <span class="text-danger">*</span></label>
+         <input type="text" name="description" placeholder="Description" class="form-control">
+         <label for="duration" class="form-label mt-4">Duration ( in mins ) <span class="text-danger">*</span></label>
+         <input type="text" name="duration" placeholder="Duration" class="form-control">
+         <label for="date" class="form-label mt-4">Date ( yyyy-mm-dd )</label>
+         <input type="date" name="date" placeholder="" class="form-control">
+         <button class="btn btn-outline-primary mt-4">Add Exercise</button>
+         </div>
+      </form>
+   </div>
+
+   <div  id="info-card">
+      <form class="form-group p-2" action="/api/exercise/log" method="GET">
+         <h4 class="card-header text-center" style="border-bottom: 2px solid navy;">Get Excercise Logs</h4>
+         <div class="card-body">
+         <label for="name" class="form-label mt-4">User Id <span class="text-danger">*</span></label>
+         <input type="text" name="userId" placeholder="Enter User Id" class="form-control">
+         <div class="group" style="display: flex;">
+            <div class="one" style="width: 48%;"> 
+               <label for="from" class="form-label mt-4">From ( yyyy-mm-dd )</label>
+               <input type="date" name="from" class="form-control">
+            </div>
+            <div class="two" style="width: 48%;margin-left: 4%;">
+               <label for="to" class="form-label mt-4">To ( yyyy-mm-dd )</label>
+               <input type="date" name="to" class="form-control">
+            </div>
+         </div>
+         <label for="limit" class="form-label mt-4">Limit <small>(No. of Entries To Show )</small></label>
+         <input type="number" name="limit" placeholder="2" class="form-control">
+         <button class="btn btn-outline-success mt-4">Get Logs</button>
+         </div>
+      </form>
       </div>
-   </body>
-
+</body>
 </html>
