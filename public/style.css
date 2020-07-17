@@ -1,64 +1,61 @@
-
-* {
-  box-sizing: border-box;
+body{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 20% 40% 50% 10%;
+}
+#header{
+  grid-column: 1/3;
+  grid-row: 1/2;
+}
+#footer{
+  grid-column: 1/3;
+  grid-row: 4/5;
+}
+#form-1
+{
+  justify-self: center;
+  width: 95%;
+  grid-column: 1/2;
+  grid-row: 2/3;
+  margin-top: -30px;
 }
 
-body {
-  font-family:sans-serif;
-  margin: 25px;
-  color: #222;
-  background-color: #f5f5f5;
-}
 
-h1 {
-  font-weight: bold;
-  
+#form-2{
+  margin-top: -30px;
+  justify-self: center;
+  width: 95%;
+  grid-column: 2/3;
+  grid-row: 2/4;
 }
-
-.bold {
-  font-weight: bold;
-}
-
-p {
-  max-width: 900px;
-}
-
-form {
-  margin-bottom: 25px;
-  padding: 15px;
-  background-color: #87D37C;
-  display: inline-block;
-  width: 100%;
-  max-width: 340px;
+#info-card{
+  grid-column: 1/2;
+  grid-row: 3/4;
   border-radius: 5px;
+  justify-self: center;
+  width: 95%;
+  margin-top: -50px;
 }
-
-input {
-  display: block;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-  font-size: 16px;
+#my-card{
+  border: 0.002em solid rgb(151, 151, 151);
+  box-shadow: 0 3px 10px rgb(141, 141, 141);
 }
-
-input[type=submit] {
-  font-size: 16px;
-  border-radius: 3px;
-  background-color: #E4F1FE;
-  border: 1px solid grey;
-  box-shadow: 2px 2px #999;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #FFFEC4;
-}
-
-code {
-  font-family: monospace;
-  font-size: 1.2em;
-  background-color: #FFFEC4;
-  padding: 2px;
+@media screen and (max-width:600px)
+{
+  body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px;
+  }
+  #form-1{
+    margin-top: 30px;
+  }
+  #form-2{
+    margin-top: 10px;
+  }
+  #info-card{
+    margin-top: unset;
+  }
+  
 }
