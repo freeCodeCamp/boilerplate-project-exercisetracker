@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track', {
+mongoose.connect(process.env.MLAB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
