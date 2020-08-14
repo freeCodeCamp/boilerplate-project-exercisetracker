@@ -5,6 +5,9 @@ mongoose.connect(process.env.MLAB_URI, {
   useUnifiedTopology: true
 });
 
+mongoose.connection.on('open', () => console.log('Mongoose connected'));
+mongoose.connection.on('error', err => console.log(`Mongoose could not connect: ${err}`));
+
 const userSchema = mongoose.Schema({
 
 });
