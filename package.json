@@ -11,8 +11,8 @@
 		"cors": "^2.8.1",
 		"dotenv": "^8.2.0",
 		"express": "^4.14.0",
-		"mongodb": "^2.2.14",
-		"mongoose": "^4.7.2",
+		"mongodb": "^2.2.36",
+		"mongoose": "^4.13.21",
 		"nodemon": "^2.0.4",
 		"shortid": "^2.2.6"
 	},
