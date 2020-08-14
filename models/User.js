@@ -3,11 +3,12 @@ const autoIncrement = require('mongoose-auto-increment');
 require('dotenv').config();
 mongoose.connect(process.env.MLAB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 });
 
 mongoose.connection.on('open', () => console.log('Mongoose connected'));
-autoIncrement.initialize(connection);
+autoIncrement.initialize(mongoose.connection);
 mongoose.connection.on('error', err => console.log(`Mongoose could not connect: ${err}`));
 
 const userSchema = mongoose.Schema({
