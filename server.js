@@ -6,10 +6,10 @@ const User = require('./models/User.js');
 const cors = require('cors');
 app.use(cors());
 
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/views/index.html`)
 });
