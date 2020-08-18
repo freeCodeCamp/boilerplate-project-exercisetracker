@@ -4,7 +4,8 @@ require('dotenv').config();
 mongoose.connect(process.env.MLAB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 });
 
 mongoose.connection.on('open', () => console.log('Mongoose connected'));
@@ -12,7 +13,7 @@ autoIncrement.initialize(mongoose.connection);
 mongoose.connection.on('error', err => console.log(`Mongoose could not connect: ${err}`));
 
 const userSchema = mongoose.Schema({
-  user: String
+  username: String
 });
 
 userSchema.plugin(autoIncrement.plugin, {
