@@ -30,7 +30,7 @@ app.post('/api/exercise/new-user', (request, response, next) => {
         }
       })
       .then(user => {
-        response.json({username: user.username, _id:user._id});
+        response.json({_id:user._id, username: user.username});
       })
       .catch(error => {
         const status = error.status || 500;
