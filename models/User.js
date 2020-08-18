@@ -13,7 +13,7 @@ autoIncrement.initialize(mongoose.connection);
 mongoose.connection.on('error', err => console.log(`Mongoose could not connect: ${err}`));
 
 const userSchema = mongoose.Schema({
-  username: String
+  username: {type: String, required: true}
 });
 
 userSchema.plugin(autoIncrement.plugin, {
