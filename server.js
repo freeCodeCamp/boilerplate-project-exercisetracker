@@ -38,6 +38,13 @@ app.post('/api/exercise/new-user', (request, response, next) => {
       })
 });
 
+app.get('/api/exercise/users', (request, response) => {
+  User.find({}).select("-__v")
+  .then(users => {
+    response.json(users);
+  })
+});
+
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
 });
