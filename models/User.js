@@ -30,7 +30,7 @@ userSchema.plugin(autoIncrement.plugin, {
   incrementBy: 1
 });
 
-const user = mongoose.model('User', userSchema);
-const exercise = mongoose.model('Exercise', exerciseSchema);
+const User = mongoose.model('User', userSchema);
+const Exercise = mongoose.model('Exercise', exerciseSchema);
 
-module.exports = {user, exercise};
+module.exports = {User, Exercise};

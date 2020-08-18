@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const User = require('./models/User.js');
+const { User, Exercise } = require('./models/User.js');
 
 const cors = require('cors');
 app.use(cors());
