@@ -30,12 +30,19 @@ app.post('/api/exercise/new-user', (request, response, next) => {
         }
       })
       .then(user => {
-        response.json({username: user.username, _id:user._id});
+        response.json({_id:user._id, username: user.username});
       })
       .catch(error => {
         const status = error.status || 500;
         next({status, message: error.message});
       })
+});
+
+app.get('/api/exercise/users', (request, response) => {
+  User.find({}).select("-__v")
+  .then(users => {
+    response.json(users);
+  })
 });
 
 app.use((req, res, next) => {
