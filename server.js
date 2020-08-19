@@ -41,6 +41,9 @@ app.post('/api/exercise/add', (request, response, next) => {
   const requestBody = request.body;
   User.findOne({_id: requestBody.userId})
       .then(queriedUser => {
+        if(!queriedUser){
+          return Promise.reject({status: 400, message: 'User does not exist'});
+        }
         const duration = requestBody.duration;
         const description = requestBody.description;
         const date = requestBody.date ? new Date(requestBody.date) : new Date();
