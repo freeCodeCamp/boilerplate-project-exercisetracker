@@ -32,45 +32,66 @@ app.post('/api/exercise/new-user', (request, response, next) => {
       .then(user => {
         response.json({_id:user._id, username: user.username});
       })
-      .catch(error => {
-        next({status: error.status, message: error.message});
-      })
+      .catch(error => next({status: error.status, message: error.message}));
 });
 
 app.post('/api/exercise/add', (request, response, next) => {
   const requestBody = request.body;
+  const duration = requestBody.duration;
+  const description = requestBody.description;
+  const date = requestBody.date ? new Date(requestBody.date) : new Date();
+  const exerciseEntered = {duration, description, date};
   User.findOne({_id: requestBody.userId})
       .then(queriedUser => {
         if(!queriedUser){
           return Promise.reject({status: 400, message: 'User does not exist'});
         }
-        const duration = requestBody.duration;
-        const description = requestBody.description;
-        const date = requestBody.date ? new Date(requestBody.date) : new Date();
-        const exercise = new Exercise({user: queriedUser, duration, description, date});
+        const exercise = new Exercise({user: queriedUser, ...exerciseEntered});
         exercise.save();
         queriedUser.exercises.push(exercise);
         return queriedUser.save();
       })
       .then(user => {
-        response.json({_id: user._id, username: user.username, exercises: user.exercises});
+        response.json({
+          _id: user._id, 
+          username: user.username, 
+          exercise: exerciseEntered
+        });
       })
-      .catch(error => {
-        next({status: error.status, message: error.message});
-      })
+      .catch(error => next({status: error.status, message: error.message}));
 })
 
 app.get('/api/exercise/users', (request, response, next) => {
-  User.find({}).select("-__v")
+  User.find({}).select('-__v')
   .then(users => {
     if(!users){
       return Promise.reject({status: 400, message: 'No users found'});
     }
     response.json(users);
   })
-  .catch(error => {
-    next({status: error.status, message: error.message});
-  })
+  .catch(error => next({status: error.status, message: error.message}));
+});
+
+app.get('/api/exercise/log', (request, response, next) => {
+  const userId = request.query.userId;
+  User.findById({_id: userId}).select('-v').populate('exercises')
+      .then(queriedUser => {
+        if(!queriedUser){
+          return Promise.reject({status: 400, message: 'No users found'});
+        } else if(!queriedUser.exercises.length){
+          return Promise.reject({status: 400, message: 'No exercises found'});
+        }
+        response.json({
+          _id: queriedUser._id, 
+          username: queriedUser.username, 
+          exercises: queriedUser.exercises.map(exercise => ({
+            duration: exercise.duration,
+            description: exercise.description,
+            date: exercise.date
+          })), 
+          count: queriedUser.exercises.length});
+      })
+      .catch(error => next({status: error.status, message: error.message}));
 });
 
 app.use((req, res, next) => {
@@ -94,4 +115,4 @@ app.use((err, req, res, next) => {
   }
   res.status(errCode).type('txt')
      .send(errMessage)
-})
+});
