@@ -12,15 +12,20 @@ mongoose.connection.on('open', () => console.log('Mongoose connected'));
 autoIncrement.initialize(mongoose.connection);
 mongoose.connection.on('error', err => console.log(`Mongoose could not connect: ${err}`));
 
-const userSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+const userSchema = Schema({
   username: {type: String, required: true},
-  exercises: [{type: mongoose.Schema.Types.ObjectId, ref: 'Exercise'}]
+  exercises: [{type: Schema.Types.ObjectId, ref: 'Exercise'}]
 });
 
-const exerciseSchema = mongoose.Schema({
+const exerciseSchema = Schema({
   description: {type: String, required: true},
   duration: {type: Number, required: true},
   dateDone: Date,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
 userSchema.plugin(autoIncrement.plugin, {
