@@ -84,7 +84,7 @@ app.get('/api/exercise/log', (request, response, next) => {
         response.json({
           _id: queriedUser._id, 
           username: queriedUser.username, 
-          exercises: queriedUser.exercises.map(exercise => ({
+          log: queriedUser.exercises.map(exercise => ({
             duration: exercise.duration,
             description: exercise.description,
             date: exercise.date
