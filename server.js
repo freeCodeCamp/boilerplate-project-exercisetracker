@@ -63,6 +63,9 @@ app.post('/api/exercise/add', (request, response, next) => {
 app.get('/api/exercise/users', (request, response, next) => {
   User.find({}).select("-__v")
   .then(users => {
+    if(!users){
+      return Promise.reject({status: 400, message: 'No users found'});
+    }
     response.json(users);
   })
   .catch(error => {
