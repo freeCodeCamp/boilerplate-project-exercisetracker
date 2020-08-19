@@ -34,30 +34,35 @@ app.post('/api/exercise/new-user', (request, response, next) => {
       })
       .catch(error => {
         next({status: error.status, message: error.message});
-      })
+      });
 });
 
 app.post('/api/exercise/add', (request, response, next) => {
   const requestBody = request.body;
+  const duration = requestBody.duration;
+  const description = requestBody.description;
+  const date = requestBody.date ? new Date(requestBody.date) : new Date();
+  const exerciseEntered = {duration, description, date};
   User.findOne({_id: requestBody.userId})
       .then(queriedUser => {
         if(!queriedUser){
           return Promise.reject({status: 400, message: 'User does not exist'});
         }
-        const duration = requestBody.duration;
-        const description = requestBody.description;
-        const date = requestBody.date ? new Date(requestBody.date) : new Date();
-        const exercise = new Exercise({user: queriedUser, duration, description, date});
+        const exercise = new Exercise({user: queriedUser, ...exerciseEntered});
         exercise.save();
         queriedUser.exercises.push(exercise);
         return queriedUser.save();
       })
       .then(user => {
-        response.json({_id: user._id, username: user.username, exercises: user.exercises});
+        response.json({
+          _id: user._id, 
+          username: user.username, 
+          exercise: exerciseEntered
+        });
       })
       .catch(error => {
         next({status: error.status, message: error.message});
-      })
+      });
 })
 
 app.get('/api/exercise/users', (request, response, next) => {
@@ -70,7 +75,7 @@ app.get('/api/exercise/users', (request, response, next) => {
   })
   .catch(error => {
     next({status: error.status, message: error.message});
-  })
+  });
 });
 
 app.get('/api/exercise/log', (request, response, next) => {
