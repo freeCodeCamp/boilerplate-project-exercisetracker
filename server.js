@@ -61,7 +61,7 @@ app.post('/api/exercise/add', (request, response, next) => {
 })
 
 app.get('/api/exercise/users', (request, response, next) => {
-  User.find({}).select("-__v")
+  User.find({}).select('-__v')
   .then(users => {
     if(!users){
       return Promise.reject({status: 400, message: 'No users found'});
@@ -71,6 +71,22 @@ app.get('/api/exercise/users', (request, response, next) => {
   .catch(error => {
     next({status: error.status, message: error.message});
   })
+});
+
+app.get('/api/exercise/log', (request, response, next) => {
+  const userId = request.query.userId;
+  User.findById({_id: userId}).select('-v').populate('exercises')
+      .then(queriedUser => {
+        response.json({
+          _id: queriedUser._id, 
+          username: queriedUser.username, 
+          exercises: queriedUser.exercises.map(exercise => ({
+            duration: exercise.duration,
+            description: exercise.description,
+            date: exercise.date
+          })), 
+          count: queriedUser.exercises.length});
+      })
 });
 
 app.use((req, res, next) => {
