@@ -37,6 +37,26 @@ app.post('/api/exercise/new-user', (request, response, next) => {
       })
 });
 
+app.post('/api/exercise/add', (request, response, next) => {
+  const requestBody = request.body;
+  User.findOne({_id: requestBody.userId})
+      .then(queriedUser => {
+        const duration = requestBody.duration;
+        const description = requestBody.description;
+        const date = new Date(requestBody.date) || new Date();
+        const exercise = new Exercise({user: queriedUser, duration, description, date});
+        exercise.save();
+        queriedUser.exercises.push(exercise);
+        return queriedUser.save();
+      })
+      .then(user => {
+        response.json({_id: user._id, username: user.username, exercises: user.exercises});
+      })
+      .catch(error => {
+        next({status: error.status, message: error.message});
+      })
+})
+
 app.get('/api/exercise/users', (request, response, next) => {
   User.find({}).select("-__v")
   .then(users => {
