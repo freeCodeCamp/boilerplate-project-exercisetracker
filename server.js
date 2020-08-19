@@ -78,6 +78,8 @@ app.get('/api/exercise/log', (request, response, next) => {
       .then(queriedUser => {
         if(!queriedUser){
           return Promise.reject({status: 400, message: 'No users found'});
+        } else if(!queriedUser.exercises.length){
+          return Promise.reject({status: 400, message: 'No exercises found'});
         }
         response.json({
           _id: queriedUser._id, 
