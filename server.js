@@ -43,7 +43,7 @@ app.post('/api/exercise/add', (request, response, next) => {
       .then(queriedUser => {
         const duration = requestBody.duration;
         const description = requestBody.description;
-        const date = new Date(requestBody.date) || new Date();
+        const date = requestBody.date ? new Date(requestBody.date) : new Date();
         const exercise = new Exercise({user: queriedUser, duration, description, date});
         exercise.save();
         queriedUser.exercises.push(exercise);

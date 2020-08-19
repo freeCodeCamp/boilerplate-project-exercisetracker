@@ -21,7 +21,7 @@ const userSchema = Schema({
 const exerciseSchema = Schema({
   description: {type: String, required: true},
   duration: {type: Number, required: true},
-  dateDone: Date,
+  date: Date,
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
