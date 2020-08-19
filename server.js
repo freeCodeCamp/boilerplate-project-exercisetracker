@@ -33,15 +33,17 @@ app.post('/api/exercise/new-user', (request, response, next) => {
         response.json({_id:user._id, username: user.username});
       })
       .catch(error => {
-        const status = error.status || 500;
-        next({status, message: error.message});
+        next({status: error.status, message: error.message});
       })
 });
 
-app.get('/api/exercise/users', (request, response) => {
+app.get('/api/exercise/users', (request, response, next) => {
   User.find({}).select("-__v")
   .then(users => {
     response.json(users);
+  })
+  .catch(error => {
+    next({status: error.status, message: error.message});
   })
 });
 
@@ -61,7 +63,7 @@ app.use((err, req, res, next) => {
     errMessage = err.errors[keys[0]].message
   } else {
     // generic or custom error
-    errCode = err.status
+    errCode = err.status || 500;
     errMessage = err.message || 'Internal Server Error'
   }
   res.status(errCode).type('txt')
