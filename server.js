@@ -32,9 +32,7 @@ app.post('/api/exercise/new-user', (request, response, next) => {
       .then(user => {
         response.json({_id:user._id, username: user.username});
       })
-      .catch(error => {
-        next({status: error.status, message: error.message});
-      });
+      .catch(error => next({status: error.status, message: error.message}));
 });
 
 app.post('/api/exercise/add', (request, response, next) => {
@@ -60,9 +58,7 @@ app.post('/api/exercise/add', (request, response, next) => {
           exercise: exerciseEntered
         });
       })
-      .catch(error => {
-        next({status: error.status, message: error.message});
-      });
+      .catch(error => next({status: error.status, message: error.message}));
 })
 
 app.get('/api/exercise/users', (request, response, next) => {
@@ -73,15 +69,16 @@ app.get('/api/exercise/users', (request, response, next) => {
     }
     response.json(users);
   })
-  .catch(error => {
-    next({status: error.status, message: error.message});
-  });
+  .catch(error => next({status: error.status, message: error.message}));
 });
 
 app.get('/api/exercise/log', (request, response, next) => {
   const userId = request.query.userId;
   User.findById({_id: userId}).select('-v').populate('exercises')
       .then(queriedUser => {
+        if(!queriedUser){
+          return Promise.reject({status: 400, message: 'No users found'});
+        }
         response.json({
           _id: queriedUser._id, 
           username: queriedUser.username, 
@@ -92,6 +89,7 @@ app.get('/api/exercise/log', (request, response, next) => {
           })), 
           count: queriedUser.exercises.length});
       })
+      .catch(error => next({status: error.status, message: error.message}));
 });
 
 app.use((req, res, next) => {
@@ -115,4 +113,4 @@ app.use((err, req, res, next) => {
   }
   res.status(errCode).type('txt')
      .send(errMessage)
-})
+});
