@@ -74,6 +74,10 @@ app.get('/api/exercise/users', (request, response, next) => {
 
 app.get('/api/exercise/log', (request, response, next) => {
   const userId = request.query.userId;
+  const from = request.query.from && new Date(request.query.from);
+  const to = request.query.to && new Date(request.query.from);
+  const limit = request.query.limit;
+
   User.findById({_id: userId}).select('-v').populate('exercises')
       .then(queriedUser => {
         if(!queriedUser){
@@ -81,11 +85,29 @@ app.get('/api/exercise/log', (request, response, next) => {
         } else if(!queriedUser.exercises.length){
           return Promise.reject({status: 400, message: 'No exercises found'});
         }
+
+        //TODO: fix error with to conditional, 
+        //and create function for optional parameters
+        let exercises = queriedUser.exercises.filter((exercise) => {
+          let isWithinDateRange = true;
+          if(from && exercise.date < from){
+            isWithinDateRange = false;
+          }
+          if(to && exercise.date > to){
+            isWithinDateRange = false;
+          }
+          return isWithinDateRange;
+        });
+
+        if(limit){
+          exercises = exercises.slice(0, limit);
+        }
+
         response.json({
           _id: queriedUser._id, 
           username: queriedUser.username,
           count: queriedUser.exercises.length,
-          log: queriedUser.exercises.map(exercise => ({
+          log: exercises.map(exercise => ({
             duration: exercise.duration,
             description: exercise.description,
             date: exercise.date.toDateString()
