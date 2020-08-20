@@ -74,7 +74,7 @@ app.get('/api/exercise/users', (request, response, next) => {
   .catch(error => next({status: error.status, message: error.message}));
 });
 
-function exerciseLogOptionalQueries(exercises, to, from, limit){
+function exerciseLogOptionalQueries(exercises, from, to, limit){
   let filteredExercises = exercises.filter((exercise) => {
     let isWithinDateRange = true;
     if(from && exercise.date < from){
@@ -87,7 +87,7 @@ function exerciseLogOptionalQueries(exercises, to, from, limit){
   });
 
   if(limit){
-    exercises = exercises.slice(0, limit);
+    filteredExercises = exercises.slice(0, limit);
   }
   return filteredExercises;
 };
