@@ -40,7 +40,7 @@ app.post('/api/exercise/add', (request, response, next) => {
   const duration = requestBody.duration;
   const description = requestBody.description;
   const date = requestBody.date ? new Date(requestBody.date) : new Date();
-  const exerciseEntered = {duration, description, date};
+  const exerciseEntered = {duration, description, date: date.toDateString()};
   User.findOne({_id: requestBody.userId})
       .then(queriedUser => {
         if(!queriedUser){
@@ -83,13 +83,14 @@ app.get('/api/exercise/log', (request, response, next) => {
         }
         response.json({
           _id: queriedUser._id, 
-          username: queriedUser.username, 
+          username: queriedUser.username,
+          count: queriedUser.exercises.length,
           log: queriedUser.exercises.map(exercise => ({
             duration: exercise.duration,
             description: exercise.description,
-            date: exercise.date
+            date: exercise.date.toDateString()
           })), 
-          count: queriedUser.exercises.length});
+        });
       })
       .catch(error => next({status: error.status, message: error.message}));
 });
@@ -109,7 +110,7 @@ app.use((error, request, response, next) => {
     errMessage = err.errors[keys[0]].message
   } else {
     // generic or custom error
-    errorCode = err.status || 500;
+    errorCode = error.status || 500;
     errorMessage = error.message || 'Internal Server Error'
   }
   response.status(errorCode).type('txt')
