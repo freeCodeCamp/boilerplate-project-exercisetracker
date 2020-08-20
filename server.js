@@ -75,7 +75,7 @@ app.get('/api/exercise/users', (request, response, next) => {
 app.get('/api/exercise/log', (request, response, next) => {
   const userId = request.query.userId;
   const from = request.query.from && new Date(request.query.from);
-  const to = request.query.to && new Date(request.query.from);
+  const to = request.query.to && new Date(request.query.to);
   const limit = request.query.limit;
 
   User.findById({_id: userId}).select('-v').populate('exercises')
@@ -86,7 +86,8 @@ app.get('/api/exercise/log', (request, response, next) => {
           return Promise.reject({status: 400, message: 'No exercises found'});
         }
 
-        //TODO: fix error with to conditional, 
+        //TODO: toDateString is decrementing the date in reference to database time vs stored time,
+        //try moment.js to format the date 
         //and create function for optional parameters
         let exercises = queriedUser.exercises.filter((exercise) => {
           let isWithinDateRange = true;
@@ -110,7 +111,7 @@ app.get('/api/exercise/log', (request, response, next) => {
           log: exercises.map(exercise => ({
             duration: exercise.duration,
             description: exercise.description,
-            date: exercise.date.toDateString()
+            date: exercise.date
           })), 
         });
       })
