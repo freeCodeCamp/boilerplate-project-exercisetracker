@@ -76,6 +76,7 @@ app.get('/api/exercise/users', (request, response, next) => {
 
 function exerciseLogOptionalQueries(exercises, from, to, limit){
   let filteredExercises = exercises.filter((exercise) => {
+    exercise.date = moment(exercise.date).utc();
     let isWithinDateRange = true;
     if(from && exercise.date < from){
       isWithinDateRange = false;
