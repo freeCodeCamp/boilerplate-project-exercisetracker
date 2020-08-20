@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const moment = require('moment-timezone');
 const { User, Exercise } = require('./models/User.js');
 
 const cors = require('cors');
