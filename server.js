@@ -41,7 +41,7 @@ app.post('/api/exercise/add', (request, response, next) => {
   const duration = requestBody.duration;
   const description = requestBody.description;
   const date = requestBody.date ? new Date(requestBody.date) : new Date();
-  const exerciseEntered = {duration, description, date: date.toDateString()};
+  const exerciseEntered = {duration, description, date};
   User.findOne({_id: requestBody.userId})
       .then(queriedUser => {
         if(!queriedUser){
@@ -53,6 +53,7 @@ app.post('/api/exercise/add', (request, response, next) => {
         return queriedUser.save();
       })
       .then(user => {
+        exerciseEntered.date = moment(exerciseEntered.date).utc().format('MMMM Do YYYY, dddd');
         response.json({
           _id: user._id, 
           username: user.username, 
@@ -73,6 +74,24 @@ app.get('/api/exercise/users', (request, response, next) => {
   .catch(error => next({status: error.status, message: error.message}));
 });
 
+function exerciseLogOptionalQueries(exercises, to, from, limit){
+  let filteredExercises = exercises.filter((exercise) => {
+    let isWithinDateRange = true;
+    if(from && exercise.date < from){
+      isWithinDateRange = false;
+    }
+    if(to && exercise.date > to){
+      isWithinDateRange = false;
+    }
+    return isWithinDateRange;
+  });
+
+  if(limit){
+    exercises = exercises.slice(0, limit);
+  }
+  return filteredExercises;
+};
+
 app.get('/api/exercise/log', (request, response, next) => {
   const userId = request.query.userId;
   const from = request.query.from && new Date(request.query.from);
@@ -87,23 +106,7 @@ app.get('/api/exercise/log', (request, response, next) => {
           return Promise.reject({status: 400, message: 'No exercises found'});
         }
 
-        //TODO: toDateString is decrementing the date in reference to database time vs stored time,
-        //try moment.js to format the date 
-        //and create function for optional parameters
-        let exercises = queriedUser.exercises.filter((exercise) => {
-          let isWithinDateRange = true;
-          if(from && exercise.date < from){
-            isWithinDateRange = false;
-          }
-          if(to && exercise.date > to){
-            isWithinDateRange = false;
-          }
-          return isWithinDateRange;
-        });
-
-        if(limit){
-          exercises = exercises.slice(0, limit);
-        }
+        let exercises = exerciseLogOptionalQueries(queriedUser.exercises, from, to, limit);
 
         response.json({
           _id: queriedUser._id, 
@@ -112,7 +115,7 @@ app.get('/api/exercise/log', (request, response, next) => {
           log: exercises.map(exercise => ({
             duration: exercise.duration,
             description: exercise.description,
-            date: exercise.date
+            date: moment(exercise.date).utc().format('MMMM Do YYYY, dddd')
           })), 
         });
       })
