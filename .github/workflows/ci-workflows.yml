@@ -2,7 +2,7 @@ name: Continuous deployment
 on: push
 jobs:
   install-lint:
-    name: Install dependencies and check linter
+    name: Install dependencies, check linter, and run tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository for continuous integration
@@ -11,3 +11,5 @@ jobs:
         run: npm install && npm install --dev
       - name: Lint
         run: npm run eslint
+      - name: Test
+        run: npm run test
