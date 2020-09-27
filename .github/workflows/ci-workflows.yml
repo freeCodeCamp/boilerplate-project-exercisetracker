@@ -1,0 +1,13 @@
+name: Continuous deployment
+on: push
+jobs:
+  install-lint:
+    name: Install dependencies and check linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository for continuous integration
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install && npm install --dev
+      - name: Lint
+        run: npm run eslint
