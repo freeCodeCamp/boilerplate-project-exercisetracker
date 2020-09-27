@@ -1,46 +1,46 @@
 {
-  "name": "fcc-exercise-tracker",
-  "version": "0.1.0",
-  "description": "A REST API project, part of Free Code Camp's curriculum",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "eslint": "eslint ./",
-    "prettier": "prettier --write .",
-    "test": "jest --runInBand",
-    "coverage": "jest --collect-coverage"
-  },
-  "dependencies": {
-    "express": "^4.14.0",
-    "mongoose": "^4.7.2",
-    "mongodb": "^2.2.14",
-    "body-parser": "^1.15.2",
-    "cors": "^2.8.1",
-    "shortid": "^2.2.6"
-  },
-  "engines": {
-    "node": "6.9.1"
-  },
-  "repository": {
-    "url": "https://gomix.com/#!/project/welcome-project"
-  },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "gomix",
-    "express"
-  ],
-  "devDependencies": {
-    "@shelf/jest-mongodb": "^1.2.3",
-    "eslint": "^7.10.0",
-    "eslint-plugin-jest": "^24.0.2",
-    "jest": "^26.4.2",
-    "mongodb-memory-server": "^6.8.0",
-    "prettier": "^2.1.2",
-    "supertest": "^5.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "preset": "@shelf/jest-mongodb"
-  }
+	"name": "fcc-exercise-tracker",
+	"version": "0.1.0",
+	"description": "A REST API project, part of Free Code Camp's curriculum",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"eslint": "eslint ./",
+		"prettier": "prettier --write .",
+		"test": "jest --runInBand",
+		"coverage": "jest --collect-coverage"
+	},
+	"dependencies": {
+		"express": "^4.14.0",
+		"mongoose": "^4.7.2",
+		"mongodb": "^2.2.14",
+		"body-parser": "^1.15.2",
+		"cors": "^2.8.1",
+		"shortid": "^2.2.6"
+	},
+	"engines": {
+		"node": "12.18.3"
+	},
+	"repository": {
+		"url": "https://gomix.com/#!/project/welcome-project"
+	},
+	"license": "MIT",
+	"keywords": [
+		"node",
+		"gomix",
+		"express"
+	],
+	"devDependencies": {
+		"@shelf/jest-mongodb": "^1.2.3",
+		"eslint": "^7.10.0",
+		"eslint-plugin-jest": "^24.0.2",
+		"jest": "^26.4.2",
+		"mongodb-memory-server": "^6.8.0",
+		"prettier": "^2.1.2",
+		"supertest": "^5.0.0"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"preset": "@shelf/jest-mongodb"
+	}
 }
