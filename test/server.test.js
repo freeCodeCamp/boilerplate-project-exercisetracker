@@ -1,7 +1,7 @@
 const supertest = require("supertest");
 process.env.DB_URI = process.env.MONGO_URL;
 process.env.PORT = 0;
-const { mongoose, listener } = require("./server");
+const { mongoose, listener } = require("../server");
 
 let request;
 
