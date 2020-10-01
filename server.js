@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const logger = require("./logger");
 
 const cors = require("cors");
 
@@ -41,7 +42,7 @@ app.use((err, req, res) => {
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  logger.info("Your app is listening on port " + listener.address().port);
 });
 
 module.exports = {
