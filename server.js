@@ -38,9 +38,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-app.post("/api/exercise/new-user", (req, res)=> {
+app.post("/api/exercise/new-user", async(req, res)=> {
   const user = new User(req.body)
-  user =  user.save()  
+  user = await user.save()  
   res.send(user);
 });
 
