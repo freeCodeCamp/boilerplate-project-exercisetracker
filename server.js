@@ -1,21 +1,47 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-
 const cors = require('cors')
-
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
+
+
+try {
+  mongoose.connect(
+    process.env.DB_URI,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    },
+    () => console.log("connected to MongoDB")
+  );
+} catch (error) {
+  console.log("could not connect to MongoDB");
+}
+
+// MIDDLEWARES ***************************************************
 
 app.use(cors())
-
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-
-
 app.use(express.static('public'))
+
+
+// ROUTES ***************************************************
+
+const User = mongoose.model('User', new mongoose.Schema({
+    username: {type: String, required: true}
+  }));
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
+});
+
+app.post("/api/exercise/new-user", async(req, res)=> {
+  const user = new User(req.body)
+  user = await user.save()  
+  res.send(user);
 });
 
 
@@ -23,7 +49,9 @@ app.get('/', (req, res) => {
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
 })
-
+const listener = app.listen(process.env.PORT || 3000, () => {
+  console.log('Your app is listening on port ' + listener.address().port)
+})
 // Error Handling middleware
 app.use((err, req, res, next) => {
   let errCode, errMessage
@@ -43,6 +71,5 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port)
-})
+
+
