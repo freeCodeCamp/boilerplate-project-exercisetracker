@@ -7,15 +7,15 @@
 		"start": "node server.js"
 	},
 	"dependencies": {
-		"express": "^4.14.0",
-		"mongoose": "^4.7.2",
-		"mongodb": "^2.2.14",
-		"body-parser": "^1.15.2",
-		"cors": "^2.8.1",
-		"shortid": "^2.2.6"
+		"express": "^4.16.4",
+		"mongoose": "^5.7.7",
+		"mongodb": "^3.3.2",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"shortid": "^2.2.15"
 	},
 	"engines": {
-		"node": "6.9.1"
+		"node": "12.0.0"
 	},
 	"repository": {
 		"url": "https://gomix.com/#!/project/welcome-project"
