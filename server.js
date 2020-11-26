@@ -5,7 +5,15 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track', { useMongoClient: true } )
+// Read only if you are planning to use this boilerplate with repl.it
+// repl.it doesnt have mangodb integration, you need to sign up for MLAB.com/mongodb.com
+// you will get a free 500mb mongodb database and once signed up and setup is complete
+// you can get a connection URL, which you can save in .env file and only then this boilerplate works with repl.it
+// save in .env file ----->
+// MLAB_URI= {connection url you get from mlab}
+// e.g.
+// MLAB_URI = mongodb+srv://{username}:{password}@cluster0.cnhsd.mongodb.net/{database-collection}?retryWrites=true&w=majority
+mongoose.connect(process.env.MLAB_URI)
 
 app.use(cors())
 
