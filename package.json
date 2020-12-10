@@ -11,9 +11,6 @@
 		"express": "^4.16.4",
 		"cors": "^2.8.5"
 	},
-	"engines": {
-		"node": "12.0.0"
-	},
 	"repository": {
 		"url": "https://github.com/freeCodeCamp/boilerplate-project-exercisetracker"
 	},
