@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-
+const userRouter = require('./routes/userRouter.js')
 
 
 
