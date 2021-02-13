@@ -7,31 +7,44 @@ const userModel = require('../models/userModel.js');
 
 router.post('/add', (req, res) => {
   let body = req.body;
-  userModel.find({_id: body.userid}, (err, result) => {
+  body.date = body.date == 0 ? (new Date()).toUTCString() : body.date;
+  userModel.find({_id: body.userId}, (err, result) => {
+    if (err) return res.json({ err })
     if (result == 0) res.json({error: 'no user matching given ID'})
     else {
       let user = result[0]
       let newExercise = new exerciseModel({
-        userId: body.userid,
-        description: body.description,
-        duration: body.duration,
-        date: body.date == 0 ? Date.now() : body.date
+        userId: body.userId,
+        username: user.username,
+        date: body.date,
+        duration: Number(body.duration),
+        description: body.description
       });
       newExercise.save((err, data) => {
         if (err) return res.json({err})
-        else res.json({ message: "added exercise", data });
-        console.log('adding ' + data)
-      })
-    }
+        else res.json({
+          _id: user["_id"],
+          username: user.username,
+          date: body.date,
+          duration: Number(body.duration),
+          description: body.description
+        });
+      });
+    };
   });
 });
 
 router.get('/log', (req, res) => {
-  userModel.find({_id: req.query.userid}, (err, log) => {
+  exerciseModel.find({userId: req.query.userId}, 'description username duration date', (err, log) => {
     if (log == 0) res.json({error: 'no user matching given ID'});
     else {
-      res.json({ log });
-    }
+      res.json({
+        _id: req.query.userId,
+        username: log[0].username,
+        count: log.length,
+        log: log 
+      });
+    };
   });
 });
 

@@ -20,9 +20,9 @@ router.post('/new-user', (req,res) => {
 });
 
 router.get('/users', (req,res) => {
-  userModel.find({}, (err,results) => {
+  userModel.find({}, (err,users) => {
     if (err) return console.error(err)
-    res.json({ results })
+    res.json({ users })
   })
 });
 
