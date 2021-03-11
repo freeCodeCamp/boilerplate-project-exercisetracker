@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     date: {
-        type: Date,
+        type: String,
     },
     duration: {
         type: Number,
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         type: String,
     }
 })
-// userSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator)
 
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {

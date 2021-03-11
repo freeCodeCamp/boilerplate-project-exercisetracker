@@ -38,13 +38,20 @@ app.get('/api/exercise/users', (req, res) => {
 
 app.post('/api/exercise/add', (req, res) => {
   const body = req.body
-
+  let currentDate;
+  if(body.date) {
+    currentDate = new Date(body.date).toDateString()
+  } else {
+    currentDate = new Date().toDateString()
+  }
   User.findByIdAndUpdate(body.userId, {
       description: body.description,
       duration: body.duration,
-      date: body.date || new Date,
+      date: currentDate,
+      // date: body.date || new Date,
   }, {new: true})
   .then(updateuser => {
+    console.log(typeof(updateuser._id))
     res.json(updateuser)
   }).catch(err => {
     res.status(500).send(err.message)
