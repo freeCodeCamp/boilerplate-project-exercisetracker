@@ -5,6 +5,7 @@ require('dotenv').config()
 const User = require('./mongodb')
 
 const bodyParser = require("body-parser");
+const { count } = require('./mongodb')
 
 app.use(bodyParser())
 app.use(cors())
@@ -57,8 +58,9 @@ app.post('/api/exercise/add', async (req, res) => {
         description: body.description,
         duration: Number(body.duration),
         date: currentDate,
-      }])
-  }, {new: true}).select({log: 0})
+      }]),
+      count: Number(prevUserLogArray.length + 1)
+  }, {new: true}).select({log: 0, count: 0})
   .then(updateuser => {
     res.json(updateuser)
   }).catch(err => {
@@ -70,7 +72,7 @@ app.post('/api/exercise/add', async (req, res) => {
 app.get('/api/exercise/log', (req, res) => {
   const id = req.query.userId;
 
-  User.findById(id).select({_id: 1, username: 1, log: 1})
+  User.findById(id).select({_id: 1, username: 1, log: 1, count: 1})
   .then(user => {
     res.json(user)
   })
