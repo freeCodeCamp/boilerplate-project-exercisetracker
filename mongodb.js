@@ -18,9 +18,15 @@ const userSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+    },
+    count: {
+        type: Number,
+    },
+    log: {
+        type: [Object],
     }
 })
-userSchema.plugin(uniqueValidator)
+// userSchema.plugin(uniqueValidator)
 
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {

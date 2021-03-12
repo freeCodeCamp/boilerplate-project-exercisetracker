@@ -20,14 +20,17 @@ app.post('/api/exercise/new-user', (req, res) => {
   })
   user.save()
   .then(savedUser => {
-    res.json(savedUser)
+    res.json({
+      _id: savedUser._id,
+      username: savedUser.username 
+    })
   }).catch(err => {
     res.status(500).send(err.message)
   })
 })
 
 app.get('/api/exercise/users', (req, res) => {
-  User.find()
+  User.find().select({_id: 1, username: 1})
   .then(user => {
     res.json(user)
   })
@@ -36,7 +39,7 @@ app.get('/api/exercise/users', (req, res) => {
   })
 })
 
-app.post('/api/exercise/add', (req, res) => {
+app.post('/api/exercise/add', async (req, res) => {
   const body = req.body
   let currentDate;
   if(body.date) {
@@ -44,14 +47,19 @@ app.post('/api/exercise/add', (req, res) => {
   } else {
     currentDate = new Date().toDateString()
   }
+  let prevUserLogArray = await User.findById(body.userId).then(prevUser => {return prevUser.log})
   User.findByIdAndUpdate(body.userId, {
       description: body.description,
-      duration: body.duration,
+      duration: Number(body.duration),
       date: currentDate,
-      // date: body.date || new Date,
-  }, {new: true})
+      log: 
+      prevUserLogArray.concat([{
+        description: body.description,
+        duration: Number(body.duration),
+        date: currentDate,
+      }])
+  }, {new: true}).select({log: 0})
   .then(updateuser => {
-    console.log(typeof(updateuser._id))
     res.json(updateuser)
   }).catch(err => {
     res.status(500).send(err.message)
@@ -60,9 +68,11 @@ app.post('/api/exercise/add', (req, res) => {
 
 
 app.get('/api/exercise/log', (req, res) => {
-  User.find()
+  const id = req.query.userId;
+
+  User.findById(id).select({_id: 1, username: 1, log: 1})
   .then(user => {
-    res.json(user[0].exercises)
+    res.json(user)
   })
   .catch(err => {
     res.status(500).send(err.message)
