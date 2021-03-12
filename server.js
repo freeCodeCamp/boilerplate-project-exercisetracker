@@ -48,6 +48,7 @@ app.post('/api/exercise/add', async (req, res) => {
   } else {
     currentDate = new Date().toDateString()
   }
+
   let prevUserLogArray = await User.findById(body.userId).then(prevUser => {return prevUser.log})
   User.findByIdAndUpdate(body.userId, {
       description: body.description,
@@ -71,14 +72,30 @@ app.post('/api/exercise/add', async (req, res) => {
 
 app.get('/api/exercise/log', (req, res) => {
   const id = req.query.userId;
+  console.log(req.query)
 
-  User.findById(id).select({_id: 1, username: 1, log: 1, count: 1})
-  .then(user => {
-    res.json(user)
-  })
-  .catch(err => {
-    res.status(500).send(err.message)
-  })
+  const from = req.query.from === undefined ? new Date(-8640000000000000) : new Date(req.query.from);
+  const to = req.query.to === undefined ? new Date() : new Date(req.query.to);
+  const limit = Number(req.query.limit);
+  console.log(limit)
+  console.log(from)
+  console.log(to)
+    User.findById(id).select({_id: 1, username: 1, log: 1, count: 1})
+    .then(user => {
+      if(!user) {return res.status(404).send("Unknown userId")}
+      else {
+        const newLogArray = user.log.filter(exercise => new Date(exercise.date).getTime() >= from.getTime() && new Date(exercise.date).getTime() <= to.getTime())
+        if(!isNaN(limit)) {
+          user.log = newLogArray.slice(0, limit)
+        } else {
+          user.log = newLogArray
+        }
+        res.json(user)
+      }
+    })
+    .catch(err => {
+      res.status(500).send(err.message)
+    })
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
