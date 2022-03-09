@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const db = require('./database/db');
 require('dotenv').config()
 
 app.use(cors())
@@ -9,7 +10,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-
+console.log(db)
 
 
 
