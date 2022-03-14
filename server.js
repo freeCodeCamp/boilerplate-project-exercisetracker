@@ -48,7 +48,7 @@ app.post("/api/users", (req, res) => {
     });
 });
 
-app.post("/api/users/:id/exercises", (req, res) => {
+app.post("/api/users/:id/exercises", async (req, res) => {
   const id = req.params.id;
   const { _id, description, duration, date } = req.body;
 
@@ -59,13 +59,7 @@ app.post("/api/users/:id/exercises", (req, res) => {
         throw new Error("Duration should be a number representing the minutes.");
       }
 
-      if (!date_fns.isMatch(date, "yyyy-MM-dd")) {
-        console.log("Bad date");
-        throw new Error("Wrong date format. Date formaat is yyyy-MM-dd");
-      }
-
-      if (!date_fns.isValid(new Date(date))) {
-        console.log("Bad date");
+      if (!checkDate(date)) {
         throw new Error("Wrong date format. Date formaat is yyyy-MM-dd");
       }
 
@@ -73,21 +67,28 @@ app.post("/api/users/:id/exercises", (req, res) => {
         throw new Error("Description is empty.");
       }
 
+      const tmpDate = date_fns.parseISO(date);
+
       const exercise = {
         description: description,
         duration: parseInt(duration),
-        date: new Date(date),
+        date: tmpDate.getTime(),
       };
 
       user.log.push(exercise);
+      user.count++;
 
-      user.save();
-
-      exercise._id = user._id;
-      exercise.username = user.username;
-      exercise.date = exercise.date.toDateString();
-
-      res.json(exercise);
+      user
+        .save()
+        .then((updated) => {
+          exercise._id = updated._id;
+          exercise.username = updated.username;
+          exercise.date = tmpDate.toDateString();
+          res.json(exercise);
+        })
+        .catch((e) => {
+          throw new Error(e.message);
+        });
     })
     .catch((error) => {
       res.json({
@@ -95,6 +96,88 @@ app.post("/api/users/:id/exercises", (req, res) => {
       });
     });
 });
+
+app.get("/api/users/:id/logs", async (req, res) => {
+  const { id } = req.params;
+  const { from, to, limit } = req.query;
+
+  User.findById(id)
+    .then((user) => {
+      const logs = user.log
+        .filter(
+          function (e) {
+            if (fromHelper(e.date, from) && toHelper(e.date, to) && limitHelper(this.count, limit)) {
+              this.count++;
+              return true;
+            }
+            return false;
+          },
+          { count: 0 },
+        )
+        .map(function (e) {
+          return {
+            description: e.description,
+            duration: e.duration,
+            date: new Date(e.date).toDateString(),
+          };
+        });
+
+      const response = {
+        username: user.username,
+        count: logs.length,
+        _id: user._id,
+        log: logs,
+      };
+
+      res.json(response);
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+});
+
+function checkDate(date) {
+  if (!date) {
+    return false;
+  }
+
+  if (!date_fns.isMatch(date, "yyyy-MM-dd")) {
+    return false;
+  }
+
+  if (!date_fns.isValid(new Date(date))) {
+    return false;
+  }
+
+  return true;
+}
+
+function fromHelper(date, from) {
+  if (checkDate(from)) {
+    const fromDate = date_fns.parseISO(from).getTime();
+    // console.log({ date, fromDate });
+    return date >= fromDate;
+  }
+  return true;
+}
+
+function toHelper(date, to) {
+  if (checkDate(to)) {
+    const toDate = date_fns.parseISO(to).getTime();
+    // console.log({ date, toDate });
+    return date < toDate;
+  }
+  return true;
+}
+
+function limitHelper(count, limit) {
+  if (isNaN(limit)) {
+    return true;
+  }
+  return count < limit;
+}
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log("Your app is listening on port " + listener.address().port);

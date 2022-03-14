@@ -1,17 +1,32 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const exerciseSchema = new Schema(
+  {
+    description: {
+      type: String,
+    },
+    duration: {
+      type: Number,
+    },
+    date: {
+      type: Number,
+    },
+  },
+  { versionKey: false },
+);
+
 const userSchema = new Schema(
   {
     username: {
       type: String,
-    }, // String is shorthand for {type: String}
+    },
     count: {
       type: Number,
+      required: true,
+      default: 0,
     },
-    log: {
-      type: Array,
-    },
+    log: [exerciseSchema],
   },
   { versionKey: false },
 );
