@@ -1,15 +1,19 @@
 {
 	"name": "fcc-exercise-tracker",
-	"version": "0.1.0",
+	"version": "0.2.0",
+	"author": "Jens Homann",
 	"description": "A REST API project, part of Free Code Camp's curriculum",
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js"
 	},
 	"dependencies": {
-		"dotenv": "^8.2.0",
-		"express": "^4.16.4",
-		"cors": "^2.8.5"
+		"colors": "^1.4.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.6.0",
+		"express": "^4.18.2",
+		"mongodb": "5.1",
+		"mongoose": "^7.0.3"
 	},
 	"repository": {
 		"url": "https://github.com/freeCodeCamp/boilerplate-project-exercisetracker"
@@ -18,5 +22,13 @@
 	"keywords": [
 		"node",
 		"express"
-	]
+	],
+	"devDependencies": {
+		"eslint": "^8.37.0",
+		"eslint-config-standard": "^17.0.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-n": "^15.7.0",
+		"eslint-plugin-promise": "^6.1.1",
+		"node-env-run": "^4.0.2"
+	}
 }
