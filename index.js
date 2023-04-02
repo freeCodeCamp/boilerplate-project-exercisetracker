@@ -96,6 +96,15 @@ app.get('/api/users', (req, res) => {
     .catch((/** @type {any} */ err) => { console.log(err) })
 })
 
+// für nächsten GET benötigt
+/* const savedUserLog = savedUser.log.map(obj => {
+  return {
+    description: obj.description,
+    duration: obj.duration,
+    date: postDateFormat(obj.date)
+  } */
+
+
 /// //////////////////////////////////////////////////// POST
 
 app.post('/api/users', checkUsernameInput, (req, res) => {
@@ -148,13 +157,12 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
       }
       user?.saveUser()
         .then(savedUser => {
-          const savedUserLog = savedUser.log.map(obj => {
-            return {
-              description: obj.description,
-              duration: obj.duration,
-              date: postDateFormat(obj.date)
-            }
-          })
+          const log = savedUser.log[nextLogNum]
+          const savedUserLog = {
+            description: log.description,
+            duration: log.duration,
+            date: postDateFormat(log.date)
+          }
           res.send({
             username: savedUser.username,
             _id: savedUser._id,
@@ -185,7 +193,7 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
       res.redirect(mainView)
     })
 })
-
+ 
 /// ////////////////////////////////////////////////// Other Stuff
 
 try {
