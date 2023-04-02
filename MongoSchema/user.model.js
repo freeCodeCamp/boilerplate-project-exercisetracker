@@ -38,11 +38,11 @@ userSchema.statics.getAllAsArray = async function () {
     // @ts-ignore
     const users = await this.find({})
     const listArray = []
-    const tempUser = {}
     for (const user of users) {
-      tempUser.username = user.username
-      tempUser._id = user._id
-      listArray.push(tempUser)
+      listArray.push({
+        username: user.username,
+        _id: user._id
+      })
     }
     console.log(listArray)
 
