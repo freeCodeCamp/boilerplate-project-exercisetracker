@@ -44,8 +44,6 @@ userSchema.statics.getAllAsArray = async function () {
         _id: user._id
       })
     }
-    console.log(listArray)
-
     return listArray
   } catch (error) {
     throw new Error(error)
