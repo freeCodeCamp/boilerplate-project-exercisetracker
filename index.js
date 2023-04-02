@@ -93,8 +93,16 @@ app.get('/api/users', (req, res) => {
       // console.log(list)
       res.send(list)
     })
-    .catch((err) => { console.log(err) })
+    .catch((/** @type {any} */ err) => { console.log(err) })
 })
+
+// für nächsten GET benötigt
+/* const savedUserLog = savedUser.log.map(obj => {
+  return {
+    description: obj.description,
+    duration: obj.duration,
+    date: postDateFormat(obj.date)
+  } */
 
 /// //////////////////////////////////////////////////// POST
 
@@ -118,13 +126,30 @@ app.post('/api/users', checkUsernameInput, (req, res) => {
     })
 })
 
+/**
+ * @param {Date} date
+ */
+function postDateFormat (date) {
+  const local = 'en-GB'
+  let formatedDate = ''
+  let day = date.toLocaleString(local, { day: 'numeric' }).toString()
+  if (day.length === 1) { day = '0' + day }
+  const dayNameShort = date.toLocaleString(local, { weekday: 'short' })
+  const month = date.toLocaleString(local, { month: 'short' })
+  const year = date.toLocaleString(local, { year: 'numeric' })
+
+  formatedDate = formatedDate.concat(dayNameShort, ' ', month, ' ', day, ' ', year) // Mon Jan 01 1990
+  return formatedDate
+}
 app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
   await User.findById(req.params._id).exec()
     .then(user => {
       const nextLogNum = user?.log.length || 0
       // @ts-ignore
       user.log.push({
+        // @ts-ignore
         description: req.body.description,
+        // @ts-ignore
         duration: req.body.duration
       })
       if (req.body.date) {
@@ -133,18 +158,15 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
       }
       user?.saveUser()
         .then(savedUser => {
-          const savedUserLog = savedUser.log.map(obj => {
-            return {
-              description: obj.description,
-              duration: obj.duration,
-              date: obj.date
-            }
-          })
-          res.send({
+          const log = savedUser.log[nextLogNum]
+          const exercise = {
             username: savedUser.username,
-            _id: savedUser._id,
-            log: savedUserLog
-          })
+            description: log.description,
+            duration: log.duration,
+            date: postDateFormat(log.date),
+            _id: savedUser._id
+          }
+          res.send(exercise)
         })
         .catch(err => {
           if (err.stack.includes('Cast to Number')) {
