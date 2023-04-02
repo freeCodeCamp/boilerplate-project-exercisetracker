@@ -33,11 +33,11 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log('Sever is listening to Port: ' + port)
 })
 
-const checkUsernameInput = (/** @type {{ body: { username: any; }; }} */ req, /** @type {{ redirect: (arg0: string) => any; }} */ res, /** @type {() => any} */ next) => {
+const checkUsernameInput = (req, res, next) => {
   !req.body.username ? res.redirect(mainView) : next()
 }
 
-const dateCheck = (/** @type {{ body: { date: string; }; }} */ req, /** @type {{ redirect: (arg0: string) => void; }} */ res, /** @type {() => void} */ next) => {
+const dateCheck = (req, res, next) => {
   if (!req.body.date) {
     next()
   } else {
@@ -104,7 +104,6 @@ app.get('/api/users', (req, res) => {
     date: postDateFormat(obj.date)
   } */
 
-
 /// //////////////////////////////////////////////////// POST
 
 app.post('/api/users', checkUsernameInput, (req, res) => {
@@ -148,7 +147,9 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
       const nextLogNum = user?.log.length || 0
       // @ts-ignore
       user.log.push({
+        // @ts-ignore
         description: req.body.description,
+        // @ts-ignore
         duration: req.body.duration
       })
       if (req.body.date) {
@@ -158,16 +159,14 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
       user?.saveUser()
         .then(savedUser => {
           const log = savedUser.log[nextLogNum]
-          const savedUserLog = {
+          const exercise = {
+            username: savedUser.username,
             description: log.description,
             duration: log.duration,
-            date: postDateFormat(log.date)
+            date: postDateFormat(log.date),
+            _id: savedUser._id
           }
-          res.send({
-            username: savedUser.username,
-            _id: savedUser._id,
-            log: savedUserLog
-          })
+          res.send(exercise)
         })
         .catch(err => {
           if (err.stack.includes('Cast to Number')) {
@@ -193,7 +192,7 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
       res.redirect(mainView)
     })
 })
- 
+
 /// ////////////////////////////////////////////////// Other Stuff
 
 try {
