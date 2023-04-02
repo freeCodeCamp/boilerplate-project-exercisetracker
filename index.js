@@ -33,11 +33,11 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log('Sever is listening to Port: ' + port)
 })
 
-const checkUsernameInput = (req, res, next) => {
+const checkUsernameInput = (/** @type {{ body: { username: any; }; }} */ req, /** @type {{ redirect: (arg0: string) => any; }} */ res, /** @type {() => any} */ next) => {
   !req.body.username ? res.redirect(mainView) : next()
 }
 
-const dateCheck = (req, res, next) => {
+const dateCheck = (/** @type {{ body: { date: string; }; }} */ req, /** @type {{ redirect: (arg0: string) => void; }} */ res, /** @type {() => void} */ next) => {
   if (!req.body.date) {
     next()
   } else {
@@ -93,7 +93,7 @@ app.get('/api/users', (req, res) => {
       // console.log(list)
       res.send(list)
     })
-    .catch((err) => { console.log(err) })
+    .catch((/** @type {any} */ err) => { console.log(err) })
 })
 
 /// //////////////////////////////////////////////////// POST
@@ -118,6 +118,21 @@ app.post('/api/users', checkUsernameInput, (req, res) => {
     })
 })
 
+/**
+ * @param {Date} date
+ */
+function postDateFormat (date) {
+  const local = 'en-GB'
+  let formatedDate = ''
+  let day = date.toLocaleString(local, { day: 'numeric' }).toString()
+  if (day.length === 1) { day = '0' + day }
+  const dayNameShort = date.toLocaleString(local, { weekday: 'short' })
+  const month = date.toLocaleString(local, { month: 'short' })
+  const year = date.toLocaleString(local, { year: 'numeric' })
+
+  formatedDate = formatedDate.concat(dayNameShort, ' ', month, ' ', day, ' ', year) // Mon Jan 01 1990
+  return formatedDate
+}
 app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
   await User.findById(req.params._id).exec()
     .then(user => {
@@ -137,7 +152,7 @@ app.post('/api/users/:_id/exercises', dateCheck, async (req, res) => {
             return {
               description: obj.description,
               duration: obj.duration,
-              date: obj.date
+              date: postDateFormat(obj.date)
             }
           })
           res.send({
