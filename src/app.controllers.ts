@@ -1,5 +1,5 @@
 import Express from "express"
-import { createOrSaveUsernameToDb } from "./db/database";
+import { createOrSaveUsernameToDb, fetchAllUsers } from "./db/database";
 
 export const getHtml = (_request: Express.Request, response: Express.Response) => {
     try {
@@ -18,5 +18,15 @@ export const requestCreateOrSaveUsernameToDb = async (request: Express.Request, 
     }
     catch (err) {
         return response.status(500).json({ error: "unable to post username" });
+    }
+}
+
+export const getAllUsers = async (request: Express.Request, response: Express.Response) => {
+    try {
+        const allUsers = await fetchAllUsers()
+        return response.status(200).send(allUsers)
+    }
+    catch (err) {
+        return response.status(500).json({ error: "unable to fetch users" });
     }
 }

@@ -31,22 +31,23 @@ connect((process.env as EnvVariables).MONGO_URI);
 export const createOrSaveUsernameToDb = async (username: string) => {
     // 7. if it is, return that one already saved to the user
     const foundUsername = await Username.findOne({ username });
-    try {
-        let savedUsername: Username;
-        if (foundUsername) {
-            savedUsername = await foundUsername.save();
-            return savedUsername;
-        }
-        // 8. otherwise, creating a new instance of a username and saving to db
-        else {
-            let newUsername: HydratedDocument<Username> = new Username({ username });
-            savedUsername = await newUsername.save();
-            const foundNewlySavedUsername = await Username.findOne(
-                { username }
-            );
-            return foundNewlySavedUsername;
-        }
-    } catch (err) {
-        return response.status(500).send({ error: "something went wrong" });
+    let savedUsername: Username;
+    if (foundUsername) {
+        savedUsername = await foundUsername.save();
+        return savedUsername;
     }
+    // 8. otherwise, creating a new instance of a username and saving to db
+    else {
+        let newUsername: HydratedDocument<Username> = new Username({ username });
+        savedUsername = await newUsername.save();
+        const foundNewlySavedUsername = await Username.findOne(
+            { username }
+        );
+        return foundNewlySavedUsername;
+    }
+}
+
+export const fetchAllUsers = async () => {
+    const fetchedUsers = await Username.find()
+    return fetchedUsers
 }
