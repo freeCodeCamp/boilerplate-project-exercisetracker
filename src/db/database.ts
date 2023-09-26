@@ -1,4 +1,6 @@
-import mongoose, { connect, model } from "mongoose";
+import mongoose, { HydratedDocument, connect, model } from "mongoose";
+import { response } from "express";
+require("dotenv").config();
 
 // 1. defining the type (shape) of the env variables
 type EnvVariables = {
@@ -24,3 +26,27 @@ const Username = model<Username>("Username", usernameSchema);
 
 // 5. connecting to mongoDB
 connect((process.env as EnvVariables).MONGO_URI);
+
+// 6. checking if user inputted url is already in db
+export const createOrSaveUsernameToDb = async (username: string) => {
+    // 7. if it is, return that one already saved to the user
+    const foundUsername = await Username.findOne({ username });
+    try {
+        let savedUsername: Username;
+        if (foundUsername) {
+            savedUsername = await foundUsername.save();
+            return savedUsername;
+        }
+        // 8. otherwise, creating a new instance of a username and saving to db
+        else {
+            let newUsername: HydratedDocument<Username> = new Username({ username });
+            savedUsername = await newUsername.save();
+            const foundNewlySavedUsername = await Username.findOne(
+                { username }
+            );
+            return foundNewlySavedUsername;
+        }
+    } catch (err) {
+        return response.status(500).send({ error: "something went wrong" });
+    }
+}
