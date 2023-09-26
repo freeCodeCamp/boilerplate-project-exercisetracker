@@ -1,7 +1,7 @@
 {
-	"name": "fcc-exercise-tracker",
+	"name": "exercise-tracker",
 	"version": "0.1.0",
-	"description": "A REST API project, part of Free Code Camp's curriculum",
+	"description": "A REST API exercise tracker project, part of Free Code Camp's back end and API certfication.",
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js"
@@ -12,13 +12,18 @@
 		"express": "^4.16.4"
 	},
 	"repository": {
-		"url": "https://github.com/freeCodeCamp/boilerplate-project-exercisetracker"
+		"url": "https://github.com/nicole-lancaster/boilerplate-project-exercisetracker"
 	},
 	"license": "MIT",
 	"keywords": [
 		"node",
-		"express"
+		"express",
+		"mongoose",
+		"mongodb",
+		"exercise-tracker",
+		"free-code-camp"
 	],
+	"author": "Nicole Lancaster",
 	"devDependencies": {
 		"typescript": "^5.2.2"
 	}
