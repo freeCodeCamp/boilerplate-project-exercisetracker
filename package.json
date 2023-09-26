@@ -10,6 +10,7 @@
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",
 		"express": "^4.16.4",
+		"mongoose": "^7.5.3",
 		"ts-node": "^10.9.1"
 	},
 	"repository": {
