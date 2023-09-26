@@ -4,7 +4,7 @@
 	"description": "A REST API exercise tracker project, part of Free Code Camp's back end and API certfication.",
 	"main": "index.js",
 	"scripts": {
-		"start": "ts-node index.js"
+		"start": "ts-node index.ts"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
