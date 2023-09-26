@@ -4,12 +4,13 @@
 	"description": "A REST API exercise tracker project, part of Free Code Camp's back end and API certfication.",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js"
+		"start": "ts-node index.js"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",
-		"express": "^4.16.4"
+		"express": "^4.16.4",
+		"ts-node": "^10.9.1"
 	},
 	"repository": {
 		"url": "https://github.com/nicole-lancaster/boilerplate-project-exercisetracker"
@@ -25,6 +26,8 @@
 	],
 	"author": "Nicole Lancaster",
 	"devDependencies": {
+		"@types/cors": "^2.8.14",
+		"@types/express": "^4.17.18",
 		"typescript": "^5.2.2"
 	}
 }
