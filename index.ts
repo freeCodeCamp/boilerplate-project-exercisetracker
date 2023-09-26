@@ -1,4 +1,4 @@
-import { app } from "./src/app";
+import { app } from "./app";
 import { AddressInfo } from "net"
 
 const listener = app.listen(process.env.PORT || 3000, () => {
