@@ -1,5 +1,5 @@
 import Express from "express"
-import { createOrSaveUsernameToDb, fetchAllUsers } from "./db/database";
+import { createAndSaveExerciseToDb, createOrSaveUsernameToDb, fetchAllUsers } from "./db/database";
 
 export const getHtml = (_request: Express.Request, response: Express.Response) => {
     try {
@@ -28,5 +28,17 @@ export const getAllUsers = async (request: Express.Request, response: Express.Re
     }
     catch (err) {
         return response.status(500).json({ error: "unable to fetch users" });
+    }
+}
+
+export const postExerciseById = async (request: Express.Request, response: Express.Response) => {
+    const userId = request.params
+    const { description, duration, date } = request.body
+    try {
+        const savedExerciseData = await createAndSaveExerciseToDb(userId, description, duration, date)
+        return response.status(200).send(savedExerciseData)
+    }
+    catch (err) {
+        return response.status(500).json({ error: "unable to post exercise" });
     }
 }

@@ -13,6 +13,12 @@ interface Username {
     versionKey: false;
 }
 
+interface Exercise {
+    description: string;
+    duration: Number;
+    date?: Number
+}
+
 // 3. create a schema corresponding to the document (rows) interface
 const usernameSchema = new mongoose.Schema<Username>(
     {
@@ -21,8 +27,18 @@ const usernameSchema = new mongoose.Schema<Username>(
     { versionKey: false },
 );
 
+const exerciseSchema = new mongoose.Schema<Exercise>(
+    {
+        description: { type: String, required: true },
+        duration: { type: Number, required: true },
+        date: { type: Number, required: false }
+    },
+    { versionKey: false },
+);
+
 // 4. create a model - this allows you to create instances of your objects, called documents
 const Username = model<Username>("Username", usernameSchema);
+const Exercise = model<Exercise>("Exercise", exerciseSchema);
 
 // 5. connecting to mongoDB
 connect((process.env as EnvVariables).MONGO_URI);
@@ -48,6 +64,13 @@ export const createOrSaveUsernameToDb = async (username: string) => {
 }
 
 export const fetchAllUsers = async () => {
-    const fetchedUsers = await Username.find()
+    const fetchedUsers: Username[] = await Username.find()
     return fetchedUsers
+}
+
+export const createAndSaveExerciseToDb = async (userId: any, description: string, duration: number, date: string) => {
+    const foundUserById = await Username.findById(userId)
+    let newExercise: HydratedDocument<Exercise> = new Exercise({ _id: userId, description, duration, date })
+    const savedExerciseData = await newExercise.save()
+    return savedExerciseData
 }
