@@ -14,10 +14,10 @@ interface Username {
 }
 
 interface Exercise {
-    username: string,
-    description: string;
+    username: String,
+    description: String;
     duration: Number;
-    date?: Number
+    date?: String
 }
 
 // 3. create a schema corresponding to the document (rows) interface
@@ -33,7 +33,7 @@ const exerciseSchema = new mongoose.Schema<Exercise>(
         username: { type: String, required: true },
         description: { type: String, required: true },
         duration: { type: Number, required: true },
-        date: { type: Number, required: false }
+        date: { type: String, required: false }
     },
     { versionKey: false },
 );
@@ -70,11 +70,12 @@ export const fetchAllUsers = async () => {
     return fetchedUsers
 }
 
-export const createAndSaveExerciseToDb = async (userId: any, description: string, duration: number, date: any) => {
+export const createAndSaveExerciseToDb = async (userId: any, description: string, duration: number, date: string) => {
     try {
         const foundUser: Username | null = await Username.findById(userId)
         if (foundUser) {
-            let newExercise: HydratedDocument<Exercise> = new Exercise({ _id: userId, username: foundUser.username, description: description, duration: duration, date: 12 })
+            let newExercise: HydratedDocument<Exercise> = new Exercise({ _id: userId, username: foundUser.username, description: description, duration: duration, date: date })
+            console.log("newExercise", newExercise)
             let savedExerciseData: Exercise = await newExercise.save()
             return savedExerciseData
         }

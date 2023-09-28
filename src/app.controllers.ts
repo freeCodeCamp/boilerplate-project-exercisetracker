@@ -36,6 +36,7 @@ export const postExerciseById = async (request: Express.Request, response: Expre
     const { description, duration, date } = request.body
     try {
         const savedExerciseData = await createAndSaveExerciseToDb(userId, description, duration, date)
+        console.log("savedExerciseData", savedExerciseData)
         return response.status(200).send(savedExerciseData)
     }
     catch (err) {
