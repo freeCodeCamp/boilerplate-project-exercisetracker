@@ -14,6 +14,7 @@ interface Username {
 }
 
 interface Exercise {
+    username: string,
     description: string;
     duration: Number;
     date?: Number
@@ -29,6 +30,7 @@ const usernameSchema = new mongoose.Schema<Username>(
 
 const exerciseSchema = new mongoose.Schema<Exercise>(
     {
+        username: { type: String, required: true },
         description: { type: String, required: true },
         duration: { type: Number, required: true },
         date: { type: Number, required: false }
@@ -68,9 +70,19 @@ export const fetchAllUsers = async () => {
     return fetchedUsers
 }
 
-export const createAndSaveExerciseToDb = async (userId: any, description: string, duration: number, date: string) => {
-    const foundUserById = await Username.findById(userId)
-    let newExercise: HydratedDocument<Exercise> = new Exercise({ _id: userId, description, duration, date })
-    const savedExerciseData = await newExercise.save()
-    return savedExerciseData
+export const createAndSaveExerciseToDb = async (userId: any, description: string, duration: number, date: any) => {
+    try {
+        const foundUser: Username | null = await Username.findById(userId)
+        if (foundUser) {
+            let newExercise: HydratedDocument<Exercise> = new Exercise({ _id: userId, username: foundUser.username, description: description, duration: duration, date: 12 })
+            let savedExerciseData: Exercise = await newExercise.save()
+            return savedExerciseData
+        }
+        else {
+            return response.status(400).send({ msg: "user ID not found" })
+        }
+    }
+    catch (err) {
+        return response.status(500).json({ error: "something went wrong" });
+    }
 }
