@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument, connect, model } from "mongoose";
+import mongoose, { AnyObject, HydratedDocument, connect, model } from "mongoose";
 import { response } from "express";
 require("dotenv").config();
 
@@ -9,11 +9,13 @@ type EnvVariables = {
 
 // 2. creating an interface representing a document in MongoDB
 interface Username {
+    _id: String;
     username: string;
     versionKey: false;
 }
 
 interface Exercise {
+    _id: Username["_id"]
     username: String,
     description: String;
     duration: Number;
@@ -51,31 +53,39 @@ export const createOrSaveUsernameToDb = async (username: string) => {
     const foundUsername = await Username.findOne({ username });
     let savedUsername: Username;
     if (foundUsername) {
-        savedUsername = await foundUsername.save();
-        return savedUsername;
+        return foundUsername;
     }
     // 8. otherwise, creating a new instance of a username and saving to db
     else {
         let newUsername: HydratedDocument<Username> = new Username({ username });
+        let currentObjId = newUsername._id
+        let newObjIdString = currentObjId.toString()
         savedUsername = await newUsername.save();
         const foundNewlySavedUsername = await Username.findOne(
-            { username }
+            { username, _id: newObjIdString }
         );
         return foundNewlySavedUsername;
     }
 }
 
+// 9. returning a list of all saved users
 export const fetchAllUsers = async () => {
     const fetchedUsers: Username[] = await Username.find()
     return fetchedUsers
 }
 
+// 10. adding and saving exercises data based on user ID
 export const createAndSaveExerciseToDb = async (userId: any, description: string, duration: number, date: string) => {
     try {
         const foundUser: Username | null = await Username.findById(userId)
-        if (foundUser) {
-            let newExercise: HydratedDocument<Exercise> = new Exercise({ _id: userId, username: foundUser.username, description: description, duration: duration, date: date })
-            console.log("newExercise", newExercise)
+        if (foundUser && userId !== undefined) {
+            let newExercise: HydratedDocument<Exercise> = new Exercise({
+                _id: foundUser._id,
+                username: foundUser.username,
+                description: description,
+                duration: duration,
+                date: date ? new Date(date).toDateString() : new Date().toDateString()
+            })
             let savedExerciseData: Exercise = await newExercise.save()
             return savedExerciseData
         }
