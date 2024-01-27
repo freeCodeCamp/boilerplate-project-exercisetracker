@@ -1,0 +1,106 @@
+repo_name: freeCodeCamp/boilerplate-project-exercisetracker
+report_id: a96e143666784f909bf9e208369a0ece
+version: 0.1
+repo_type: Public
+timestamp: '2024-01-27T03:50:45+00:00'
+requested_by: ncheungg
+provider: github
+branch: main
+detected_tools_count: 7
+tools:
+- name: JavaScript
+  description: Lightweight, interpreted, object-oriented language with first-class
+    functions
+  website_url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker
+  detection_source: Repo Metadata
+- name: ExpressJS
+  description: Sinatra inspired web development framework for node.js -- insanely
+    fast, flexible, and simple
+  website_url: http://expressjs.com/
+  version: 4.17.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Microframeworks (Backend)
+  image_url: https://img.stackshare.io/service/1163/hashtag.png
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker/blob/main/package-lock.json
+  detection_source: package.json
+  last_updated_by: Artur J Zapater
+  last_updated_on: 2020-11-10 21:57:09.000000000 Z
+- name: Dotenv
+  description: Loads environment variables from .env for Nodejs projects
+  website_url: https://github.com/motdotla/dotenv
+  license: BSD-2-Clause
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Server Configuration and Automation
+  image_url: https://img.stackshare.io/service/8067/default_90dcb1286af7685c68df319c764b80704df1155b.png
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker/blob/main/package.json
+  detection_source: package.json
+  last_updated_by: Tom
+  last_updated_on: 2020-11-26 15:58:01.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker
+  detection_source: Repo Metadata
+- name: npm
+  description: The package manager for JavaScript.
+  website_url: https://www.npmjs.com/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Front End Package Manager
+  image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker/blob/main/package.json
+  detection_source: package.json
+  last_updated_by: System
+  last_updated_on: 2017-02-18 19:06:54.000000000 Z
+- name: cors
+  description: Node.js CORS middleware
+  package_url: https://www.npmjs.com/cors
+  version: 2.8.5
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16165/default_41f04716a804e853d5c38a5b81ee0ea8a842ad82.png
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker/blob/main/package-lock.json
+  detection_source: package.json
+  last_updated_by: Tom
+  last_updated_on: 2020-11-26 15:58:01.000000000 Z
+- name: express
+  description: Fast, unopinionated, minimalist web framework
+  package_url: https://www.npmjs.com/express
+  version: 4.17.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15818/default_db4a7791d2f1174547374b9b587bc10fec088a5a.png
+  detection_source_url: https://github.com/freeCodeCamp/boilerplate-project-exercisetracker/blob/main/package-lock.json
+  detection_source: package.json
+  last_updated_by: Artur J Zapater
+  last_updated_on: 2020-11-10 21:57:09.000000000 Z
+  vulnerabilities:
+  - name: qs vulnerable to Prototype Pollution
+    cve_id: CVE-2022-24999
+    cve_url: https://github.com/advisories/GHSA-hrpp-h998-j3pp
+    detected_date: Dec 7
+    severity: high
+    first_patched: 4.17.3
