@@ -82,8 +82,11 @@ function transform(request) {
     return query;
   } else {
     try {
-      query.date = {};
       const { from, to, limit } = request.query;
+
+      if (from || to) {
+        query.date = {};
+      }
 
       if (from && isValidDate(from)) {
         query.date.$gte = new Date(from);
