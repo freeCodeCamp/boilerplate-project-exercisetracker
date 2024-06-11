@@ -7,9 +7,12 @@
 		"start": "node index.js"
 	},
 	"dependencies": {
+		"body-parser": "^1.15.2",
 		"dotenv": "^8.2.0",
 		"express": "^4.16.4",
-		"cors": "^2.8.5"
+		"cors": "^2.8.5",
+		"mongodb": "^3.7.4",
+		"mongoose": "^5.11.15"
 	},
 	"repository": {
 		"url": "https://github.com/freeCodeCamp/boilerplate-project-exercisetracker"
@@ -17,6 +20,7 @@
 	"license": "MIT",
 	"keywords": [
 		"node",
-		"express"
+		"express",
+		"mongoose"
 	]
 }
