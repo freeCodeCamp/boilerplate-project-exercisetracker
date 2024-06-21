@@ -1,37 +1,38 @@
-* {
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  font-family: "Roboto", sans-serif;
+}
+
 body {
-  font-family: sans-serif;
-  margin: 25px;
-  color: #222;
-  background-color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  background-color: #fafaff;
 }
 
 h1 {
   font-weight: bold;
-
 }
 
 form {
-  margin-bottom: 25px;
-  padding: 15px;
-  background-color: #87D37C;
-  display: inline-block;
+  margin: 0.8em 0;
+  padding: 0.6em;
   width: 100%;
-  max-width: 340px;
   border-radius: 5px;
 }
 
 input {
   display: block;
-  margin-bottom: 10px;
-  padding: 5px;
+  margin-bottom: 0.8em;
+  padding: 10px;
   width: 100%;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: inherit;
 }
 
 input[type=submit] {
@@ -50,11 +51,68 @@ input[type=submit]:hover {
 code {
   font-family: monospace;
   font-size: 1.2em;
-  background-color: #FFFEC4;
   padding: 2px;
 }
 
-.container {
+footer {
+  padding: 2em 0;
+  font-size: 0.8em;
   text-align: center;
-  padding-top: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 37em;
+  margin: 2em 0.6250em;
+
+  @media only screen and (min-width: 60em) {
+    max-width: 38em;
+    margin: 0 auto;
+  }
+
+  .tracker {
+    @media only screen and (min-width: 60em) {
+      margin-top: 1em;
+
+      h1 {
+        margin-bottom: 1em;
+      }
+    }
+
+    h2 {
+      margin-bottom: 0.6em;
+    }
+  }
+
+  .endpoint {
+    margin-bottom: 3em;
+    text-align: start;
+
+    .title {
+      margin-bottom: 1em;
+      font-size: 2em;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3em;
+
+      .element {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+
+        code {
+          margin-left: 0.4em;
+        }
+      }
+
+      @media only screen and (min-width: 60em) {
+        margin-left: 0.6em;
+      }
+    }
+  }
 }

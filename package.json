@@ -1,8 +1,11 @@
 {
-  "name": "fcc-exercise-tracker",
-  "version": "0.1.0",
-  "description": "A REST API project, part of Free Code Camp's curriculum",
-  "main": "index.js",
+  "name": "exercise-tracker",
+  "author": {
+    "name": "Samuel Felipe"
+  },
+  "version": "0.1.1",
+  "description": "A REST API project, part of freeCodeCamp curriculum",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
@@ -14,11 +17,13 @@
     "mongoose": "^5.10.16"
   },
   "repository": {
-    "url": "https://github.com/freeCodeCamp/boilerplate-project-exercisetracker"
+    "url": "https://github.com/shemuelx/exercise-tracker"
   },
   "license": "MIT",
   "keywords": [
     "node",
-    "express"
+    "express",
+    "javascript",
+    "mongodb"
   ]
 }
